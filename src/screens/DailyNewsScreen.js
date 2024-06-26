@@ -6,10 +6,12 @@ import { apiKey } from "../constants/constants";
 import { h } from "../helpers/ResponsiveHelper";
 import { AppBar } from "../components/AppBar";
 
+
 export const DailyNewsScreen = () => {
 
     const [loading, setLoading] = useState(false);
     const [articles, setArticles] = useState([]);
+    
 
     useEffect(
         () => {
@@ -31,7 +33,6 @@ export const DailyNewsScreen = () => {
         }, []);
     return (
         <View style={styles.screen}>
-            <AppBar title={'Daily News'}/>
             {
                 loading && <Loading />
             }
@@ -59,6 +60,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: h(40)
     }
 });

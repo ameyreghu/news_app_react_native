@@ -1,24 +1,31 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { h, w } from '../helpers/ResponsiveHelper';
 import { kDefaultImage } from "../constants/constants";
+import { useNavigation } from "@react-navigation/native";
+import * as RouteNames from '../constants/RouteNames';
 
 export const ArticleCard = ({ article }) => {
+    const navigation=useNavigation();
+
+    function goToDetails(){
+        navigation.navigate(RouteNames.ArticleDetails,{article:article});
+    }
     return (
-        <View style={styles.articleCard}>
+        <TouchableOpacity style={styles.articleCard} onPress={goToDetails}>
             <Image
                 source={{ uri:article.urlToImage??kDefaultImage }}
                 style={styles.image}
             />
             <Text style={styles.title}>{article.title}</Text>
             <Text style={styles.description}>{article.description}</Text>
-        </View>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
 
     articleCard: {
-        backgroundColor: 'rgba(0,0,0,0.2)',
+        backgroundColor: 'white',
         marginHorizontal: w(10),
         marginVertical: h(10),
         paddingHorizontal: w(20),
