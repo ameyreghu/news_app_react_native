@@ -1,25 +1,23 @@
 import axios from "axios";
 import { apiKey } from "../constants/constants";
 
-async function getArticles({country,category}) {
-    try {
-        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`);
-      //  const response=mockData;
-        console.log('api data');
-        return { sucess:true,data:response.data.articles}
-    } catch (e) {
-        console.log("Error");
-        console.log(e.response);
-        return{sucess:false,error:e.response.data.message};
-    }
+async function getArticles({ country, category }) {
+  try {
+    const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`);
+    return { sucess: true, data: response.data.articles }
+  } catch (e) {
+    console.log("Error");
+    console.log(e.response);
+    return { sucess: false, error: e.response.data.message };
+  }
 
 }
 
 export default getArticles;
 
 
-const mockData={
-   "data": {
+const mockData = {
+  "data": {
     "status": "ok",
     "totalResults": 38,
     "articles": [
@@ -284,4 +282,5 @@ const mockData={
         "content": "Box Office – Chandu Champion grows again on second Friday (Photo Credit YouTube)\r\nChandu Champion had been maintaining collections over 3 crores on each of the weekdays. Now on its second Friday, the… [+1631 chars]"
       }
     ]
-  }};
+  }
+};

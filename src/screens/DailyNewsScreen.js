@@ -19,21 +19,10 @@ export const DailyNewsScreen = () => {
     const country = useSelector((state) => state.articles.selectedCountry);
 
     function getData() {
-        dispath(ArticleActions.setLoading(true));
-        getArticles({
-            country: articleState.selectedCountry,
-            category: articleState.selectedCategory
-        }).then(result => {
-            if (result.sucess) {
-                dispath(ArticleActions.setArticles(result.data));
-                dispath(ArticleActions.setLoading(false));
-                dispath(ArticleActions.setError(null));
-            } else {
-
-                dispath(ArticleActions.setLoading(false));
-                dispath(ArticleActions.setError(result.error));
-            }
-        });
+       dispath(ArticleActions.getArticleAction({
+        selectedCategory: category,
+        selectedCountry: country
+       }));
     }
 
 
