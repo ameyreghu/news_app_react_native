@@ -6,30 +6,32 @@ import { AppBar } from "../components/AppBar";
 import getArticles from "../axios/getArticles";
 import Dropdown from "../components/DropDown";
 import { categories, countryCodes } from "../constants/constants";
+import { useDispatch, useSelector } from "react-redux";
+
+import * as ArticleActions from "../redux/actions/ArticlesActions";
 
 
 export const DailyNewsScreen = () => {
 
-    const [loading, setLoading] = useState(false);
-    const [articles, setArticles] = useState([]);
-    const [error, setError] = useState(null);
-    const [selectedCountry, setSelectedCountry] = useState('in');
-    const [selectedCategory, setSelectedCategory] = useState('general');
-
+    const dispath = useDispatch();
+    const articleState = useSelector((state) => state.articles);
+    const category =useSelector((state) => state.articles.selectedCategory);
+    const country = useSelector((state) => state.articles.selectedCountry);
 
     function getData() {
-        setLoading(true);
+        dispath(ArticleActions.setLoading(true));
         getArticles({
-            country: selectedCountry,
-            category: selectedCategory
+            country: articleState.selectedCountry,
+            category: articleState.selectedCategory
         }).then(result => {
             if (result.sucess) {
-                setArticles(result.data);
-                setLoading(false);
-                setError(null);
+                dispath(ArticleActions.setArticles(result.data));
+                dispath(ArticleActions.setLoading(false));
+                dispath(ArticleActions.setError(null));
             } else {
-                setLoading(false);
-                setError(result.error);
+
+                dispath(ArticleActions.setLoading(false));
+                dispath(ArticleActions.setError(result.error));
             }
         });
     }
@@ -37,28 +39,26 @@ export const DailyNewsScreen = () => {
 
     useEffect(
         () => {
-           getData();
-
-        }, [selectedCountry, selectedCategory]);
-
-
+            getData();
+        }, [category,country]);
+    
 
     return (
         <View style={styles.screen}>
             {
-                loading && <Loading />
+                articleState.loading && <Loading />
             }
             {
-                (articles.length != 0) && <>
-                    <Dropdown value={selectedCategory} label={'Category'} options={categories} onSelect={(option) => setSelectedCategory(option)} />
-                    <Dropdown value={selectedCountry} label={'Country'} options={countryCodes} onSelect={(option) => setSelectedCountry(option)} />
-                    <ArticleList articles={articles} /></>
+                (articleState.articles.length != 0) && <>
+                    <Dropdown value={articleState.selectedCategory} label={'Category'} options={categories} onSelect={(option) =>dispath(ArticleActions.setCategory(option))} />
+                    <Dropdown value={articleState.selectedCountry} label={'Country'} options={countryCodes} onSelect={(option) => dispath(ArticleActions.setCountry(option))} />
+                    <ArticleList articles={articleState.articles} /></>
             }
             {
-                (error != null) && <Text>{error}</Text>
+                (articleState.error != null) && <Text>{articleState.error}</Text>
             }
             {
-                (articles.length == 0&&!loading) && <Text>No articles found</Text>
+                (articleState.articles.length == 0 && !articleState.lo̥ading) && <Text>No articles found</Text>
             }
         </View>
     );
@@ -66,7 +66,7 @@ export const DailyNewsScreen = () => {
 
 
 const Loading = () => {
-    return (<ActivityIndicator  size={'large'} color={'blue'}/>);
+    return (<ActivityIndicator size={'large'} color={'blue'} />);
 }
 
 const styles = StyleSheet.create({
