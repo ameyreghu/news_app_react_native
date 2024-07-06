@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { DailyNewsScreen } from './src/screens/DailyNewsScreen';
 import * as RouteNames from './src/constants/RouteNames';
 import { ArticleDetailsScreen } from './src/screens/ArticleDetailsScreen';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
 
 const Stack =createStackNavigator();
 
@@ -21,7 +23,10 @@ const AppNavigator=()=>{
 
 export default function App() {
   return (
-    <AppNavigator/>
+    <Provider store={store}>
+      <AppNavigator/>
+    </Provider>
+    
   );
 }
 
