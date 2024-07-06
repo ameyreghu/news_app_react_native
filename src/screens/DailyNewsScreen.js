@@ -49,7 +49,7 @@ export const DailyNewsScreen = () => {
                 articleState.loading && <Loading />
             }
             {
-                (articleState.articles.length != 0) && <>
+                (articleState.articles.length != 0 &&!articleState.loading) && <>
                     <Dropdown value={articleState.selectedCategory} label={'Category'} options={categories} onSelect={(option) =>dispath(ArticleActions.setCategory(option))} />
                     <Dropdown value={articleState.selectedCountry} label={'Country'} options={countryCodes} onSelect={(option) => dispath(ArticleActions.setCountry(option))} />
                     <ArticleList articles={articleState.articles} /></>
